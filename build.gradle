@@ -29,6 +29,8 @@ minecraft {
 
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
+            
+            sourceSets {main { output.resourcesDir = output.classesDir }}
         }
 
         server {
