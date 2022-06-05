@@ -78,7 +78,7 @@ dependencies {
     api fg.deobf (":MCMultiPart-${mcmp_ver}")
     api fg.deobf (":ThermalDynamics-${mc_ver}-${td_ver}-universal")
     api fg.deobf (":refinedstorage-${rs_ver}")
-    api fg.deobf (":appliedenergistics2-rv6-stable-7-extended_life-v${ae_ver}")
+    api fg.deobf (":appliedenergistics2-${ae_ver}")
     //
     runtimeOnly ":refinedstorage-${rs_ver}"
     runtimeOnly ":MCMultiPart-${mcmp_ver}"
