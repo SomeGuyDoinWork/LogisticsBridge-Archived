@@ -76,14 +76,12 @@ import java.util.stream.Stream;
 public class LogisticsBridge extends DefaultTask {
     public static final String ID = "logisticsbridge";
     public static final String NAME = "Logistics Bridge";
-    private String LBVERSION = "1.0.0.0"
-    public void setLBVERSION(String LBVERSION) {    
-            this.LBVERSION = LBVERSION;        
-    }
-    @Input
-    public String getLBVERSION() {    
-            return this.LBVERSION;  
-    }    
+    String myTextFile = /home/runner/work/LogisticsBridge/LogisticsBridge/gradle.properties
+    BufferedReader brTest = new BufferedReader(new FileReader(myTextFile));
+    LBVERSION = brTest .readLine();
+    public static String removever(String str) {
+        return LBVERSION.replaceAll("lber=", "");
+    } 
     public static final String DEPS = "after:appliedenergistics2;after:refinedstorage@[1.6.15,);required-after:logisticspipes@[0.10.3.84,)";
     public static final String UPDATE = "https://raw.githubusercontent.com/Domaman202/LogisticsBridge/master/version-check.json";
     public static final Logger log = LogManager.getLogger(NAME);
