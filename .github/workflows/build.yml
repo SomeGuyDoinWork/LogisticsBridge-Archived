@@ -41,7 +41,7 @@ jobs:
     - name: Replace version
       id: version
       shell: bash
-      run: sed -i -e "s/VERSIONREPLACE/${{ steps.vars.outputs.version }}/g" "src/main/java/com/tom/logisticsbridge/LogisticsBridge.java"
+      run: sed -i -e "s/@VERSION@/${{ steps.vars.outputs.version }}/g" "src/main/java/com/tom/logisticsbridge/LogisticsBridge.java"
     - name: Build with Gradle
       env: 
         MOD_VER: ${{ steps.vars.outputs.version }}
