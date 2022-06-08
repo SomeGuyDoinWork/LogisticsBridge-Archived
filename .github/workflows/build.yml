@@ -38,7 +38,7 @@ jobs:
         echo "::set-output name=version::$(awk 'NR==1' gradle.properties | sed 's/lbver=//' | awk '{print $1}')"
         git rev-parse --short HEAD
         awk 'NR==1' gradle.properties | sed 's/lbver=//' | awk '{print $1}'
-        sed -i -e "s/VERSIONREPLACE/${version}/g" "src/main/java/com/tom/logisticsbridge/LogisticsBridge.java"
+        sed -i -e "s/VERSIONREPLACE/awk 'NR==1' gradle.properties | sed 's/lbver=//' | awk '{print $1}'/g" "src/main/java/com/tom/logisticsbridge/LogisticsBridge.java"
     - name: Build with Gradle
       env: 
         MOD_VER: ${{ steps.vars.outputs.version }}
