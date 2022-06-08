@@ -18,7 +18,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'java'
 apply plugin: 'java-library'
 
-version = ${lbver}
+version = "${lbver}"
 
 minecraft {
     mappings channel: 'snapshot', version: "${mappings_ver}"
