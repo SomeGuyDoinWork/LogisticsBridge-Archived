@@ -76,6 +76,7 @@ import java.util.stream.Stream;
 public class LogisticsBridge {
     public static final String ID = "logisticsbridge";
     public static final String NAME = "Logistics Bridge";
+    private String LBVERSION = "1.0.0.0"
     public void setLBVERSION(String LBVERSION) {    
             this.LBVERSION = LBVERSION;        
     }
