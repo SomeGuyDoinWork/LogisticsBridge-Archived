@@ -36,8 +36,8 @@ jobs:
       run: |
         echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
         echo "::set-output name=version::$(awk 'NR==1' gradle.properties | sed 's/lbver=//' | awk '{print $1}')"
-        echo "${sha_short}"
-        echo "${version}"
+        git rev-parse --short HEAD
+        awk 'NR==1' gradle.properties | sed 's/lbver=//' | awk '{print $1}'
     - name: Build with Gradle
       env: 
         MOD_VER: ${{ steps.vars.outputs.version }}
