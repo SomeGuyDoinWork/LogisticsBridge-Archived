@@ -1,4 +1,8 @@
-#This fork is a free-time work, so dont expect for fix-bug && features implement.
+**THIS FORK IS USE GITHUB ACTION TO COMPILE THE CODE**
+
+**IF YOU WANT TO COMPILE ON LOCALLY, PLEASE CHECK [Gradle build](https://github.com/KorewaLidesu/LogisticsBridge/blob/master/.github/workflows/build.yml) FOR REFERENCE**
+
+#This fork is free-time work (and because I'm dumb at coding), expect no bug-fix / maintaining frequence
 PR this if you like
 
 # LogisticsBridge
