@@ -73,7 +73,7 @@ import java.util.stream.Stream;
 
 @Mod(modid = LogisticsBridge.ID, name = LogisticsBridge.NAME, version = LogisticsBridge.LBVERSION,
         dependencies = LogisticsBridge.DEPS, updateJSON = LogisticsBridge.UPDATE)
-public class LogisticsBridge extends DefaultTask {
+public class LogisticsBridge {
     public static final String ID = "logisticsbridge";
     public static final String NAME = "Logistics Bridge";
     String myTextFile = /home/runner/work/LogisticsBridge/LogisticsBridge/gradle.properties
