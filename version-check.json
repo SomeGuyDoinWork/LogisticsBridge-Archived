@@ -5,6 +5,7 @@
 		"1.12.2-recommended": "1.4.5.4b"
 	},
 	"1.12.2": {
+		"1.4.5.4b": "Fix compile issue with Trouser's AE2 fork",
 		"1.4.5.4": "Small edit's.",
 		"1.4.5.3": "Fixed кривой gui call.",
 		"1.4.5.2": "Fixed wrong return, replacent for 1.4.5.1.",
