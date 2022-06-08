@@ -69,13 +69,14 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
-private String LBVERSION = "1.0.0.0";
+
 
 @Mod(modid = LogisticsBridge.ID, name = LogisticsBridge.NAME, version = LogisticsBridge.LBVERSION,
         dependencies = LogisticsBridge.DEPS, updateJSON = LogisticsBridge.UPDATE)
 public class LogisticsBridge {
     public static final String ID = "logisticsbridge";
     public static final String NAME = "Logistics Bridge";
+    private String LBVERSION = "1.0.0.0";
         
     public void setLBVERSION(String LBVERSION) {    
             this.LBVERSION = LBVERSION;        
