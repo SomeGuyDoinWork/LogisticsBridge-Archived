@@ -110,7 +110,7 @@ public class ContainerPackage extends Container implements Consumer<String> {
         public int maxStackSize;
 
         public SlotPhantom(IInventory inv, int slotIndex, int posX, int posY) {
-            this(inv, slotIndex, posX, posY, 1);
+            this(inv, slotIndex, posX, posY, 64);
         }
 
         public SlotPhantom(IInventory inv, int slotIndex, int posX, int posY, int maxStackSize) {
@@ -120,7 +120,7 @@ public class ContainerPackage extends Container implements Consumer<String> {
 
         @Override
         public int getSlotStackLimit() {
-            return 1;
+            return 64;
         }
 
         @Override
