@@ -18,7 +18,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'java'
 apply plugin: 'java-library'
 
-version = "$System.env.MOD_VER"
+version = ${lbver}
 
 minecraft {
     mappings channel: 'snapshot', version: "${mappings_ver}"
@@ -93,7 +93,7 @@ dependencies {
 
 processResources {
     // this will ensure that this task is redone when the versions change.
-    inputs.property "modversion", project.version
+    inputs.property "modversion", "$(lbver)"
     inputs.property "mcversion", "${mc_ver}"
 
     // replace stuff in mcmod.info, nothing else
@@ -101,7 +101,7 @@ processResources {
         include 'mcmod.info'
                 
         // replace version and mcversion
-        expand 'modversion':project.version, 'mcversion':"${mc_ver}"
+        expand 'modversion':"$(lbver)", 'mcversion':"${mc_ver}"
     }
         
     // copy everything else, thats not the mcmod.info
