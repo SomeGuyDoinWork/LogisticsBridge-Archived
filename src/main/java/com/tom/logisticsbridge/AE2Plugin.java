@@ -357,5 +357,23 @@ public class AE2Plugin {
         public ItemStack getDefinition() {
             return ItemStack.EMPTY;
         }
+        
+        @Override
+        public boolean equals(ItemStack arg0) {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
+        public ItemStack getCachedItemStack(long arg0) {
+            // TODO Auto-generated method stub
+            return ItemStack.EMPTY;
+        }
+
+        @Override
+        public void setCachedItemStack(ItemStack arg0) {
+            // TODO Auto-generated method stub
+            return;
+        }
     }
 }
