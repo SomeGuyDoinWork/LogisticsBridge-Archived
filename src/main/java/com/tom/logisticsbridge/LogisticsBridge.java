@@ -71,17 +71,12 @@ import java.util.stream.Stream;
 
 
 
-@Mod(modid = LogisticsBridge.ID, name = LogisticsBridge.NAME, version = LogisticsBridge.LBVERSION,
+@Mod(modid = LogisticsBridge.ID, name = LogisticsBridge.NAME, version = LogisticsBridge.VERSION,
         dependencies = LogisticsBridge.DEPS, updateJSON = LogisticsBridge.UPDATE)
 public class LogisticsBridge {
     public static final String ID = "logisticsbridge";
     public static final String NAME = "Logistics Bridge";
-    String myTextFile = /home/runner/work/LogisticsBridge/LogisticsBridge/gradle.properties
-    BufferedReader brTest = new BufferedReader(new FileReader(myTextFile));
-    LBVERSION = brTest .readLine();
-    public static String removever(String str) {
-        return LBVERSION.replaceAll("lber=", "");
-    } 
+    public static final String VERSION ="VERSIONREPLACE";
     public static final String DEPS = "after:appliedenergistics2;after:refinedstorage@[1.6.15,);required-after:logisticspipes@[0.10.3.84,)";
     public static final String UPDATE = "https://raw.githubusercontent.com/Domaman202/LogisticsBridge/master/version-check.json";
     public static final Logger log = LogManager.getLogger(NAME);
@@ -120,7 +115,7 @@ public class LogisticsBridge {
 
     @EventHandler
     public static void construction(FMLConstructionEvent evt) {
-        log.info("Logistics Bridge version: " + LBVERSION);
+        log.info("Logistics Bridge version: " + VERSION);
     }
 
     @EventHandler
