@@ -69,12 +69,24 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
-@Mod(modid = LogisticsBridge.ID, name = LogisticsBridge.NAME, version = LogisticsBridge.VERSION,
+private String LBVERSION = "1.0.0.0";
+
+@Mod(modid = LogisticsBridge.ID, name = LogisticsBridge.NAME, version = LogisticsBridge.LBVERSION,
         dependencies = LogisticsBridge.DEPS, updateJSON = LogisticsBridge.UPDATE)
 public class LogisticsBridge {
     public static final String ID = "logisticsbridge";
     public static final String NAME = "Logistics Bridge";
-    public static final String VERSION = "1.4.5.4";
+        
+    public void setLBVERSION(String LBVERSION) {    
+            this.LBVERSION = LBVERSION;        
+    }
+
+    @Input
+    public String getLBVERSION() {    
+            return this.LBVERSION;  
+    }
+        
+    public static final String LBVERSION = "1.4.5.4";
     public static final String DEPS = "after:appliedenergistics2;after:refinedstorage@[1.6.15,);required-after:logisticspipes@[0.10.3.84,)";
     public static final String UPDATE = "https://raw.githubusercontent.com/Domaman202/LogisticsBridge/master/version-check.json";
     public static final Logger log = LogManager.getLogger(NAME);
