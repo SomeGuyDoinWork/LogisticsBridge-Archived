@@ -121,7 +121,7 @@ public class LogisticsBridge {
 
     @EventHandler
     public static void construction(FMLConstructionEvent evt) {
-        log.info("Logistics Bridge version: " + VERSION);
+        log.info("Logistics Bridge version: " + LBVERSION);
     }
 
     @EventHandler
