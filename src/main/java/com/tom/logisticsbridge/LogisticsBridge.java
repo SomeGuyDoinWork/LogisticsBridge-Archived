@@ -77,7 +77,7 @@ public class LogisticsBridge {
     public static final String ID = "logisticsbridge";
     public static final String NAME = "Logistics Bridge";
     public static final String VERSION ="@VERSION@";
-    public static final String DEPS = "after:appliedenergistics2@[rv6-stable-7-extended_life-v49aa;after:refinedstorage@[1.6.15,);required-after:logisticspipes@[0.10.3.84,)";
+    public static final String DEPS = "after:appliedenergistics2@[rv6-stable-7-extended_life-v49aa,);after:refinedstorage@[1.6.15,);required-after:logisticspipes@[0.10.3.84,)";
     public static final String UPDATE = "https://raw.githubusercontent.com/Domaman202/LogisticsBridge/master/version-check.json";
     public static final Logger log = LogManager.getLogger(NAME);
     private static final String CLIENT_PROXY_CLASS = "com.tom.logisticsbridge.proxy.ClientProxy";
