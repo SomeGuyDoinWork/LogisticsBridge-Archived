@@ -44,9 +44,9 @@ public class FakeItem extends Item {
                 else {
                     displayOverride = true;
                     if (stack.getTagCompound().getBoolean("__actStack"))
-                        tooltip.add(I18n.format("tooltip.logisticsbridge.packageAct", stack.getDisplayName()));
+                        tooltip.add(I18n.format("tooltip.logisticsbridge.packageAct", stack.getDisplayName(), stack.getMaxStackSize()));
                     else
-                        tooltip.add(I18n.format("tooltip.logisticsbridge.packageTmp", stack.getDisplayName()));
+                        tooltip.add(I18n.format("tooltip.logisticsbridge.packageTmp", stack.getDisplayName(), stack.getMaxStackSize()));
                     displayOverride = false;
                     String id = stack.getTagCompound().getString("__pkgDest");
                     if (!id.isEmpty())
