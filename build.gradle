@@ -101,10 +101,10 @@ dependencies {
     deobfCompile project.td_dep
     deobfCompile project.hei_dep
     deobfCompile project.lp_dep
+    deobfCompile project.rf_dep
+    deobfCompile project.ae2_dep
 
     //compileOnly
-    compileOnly project.rf_dep
-    compileOnly project.ae2_dep
     compileOnly project.ccl_dep
     compileOnly group: 'codechicken', name: 'NotEnoughItems', version: '1.12.2-2.4.3.245', classifier: 'deobf', transitive: false
 
