@@ -26,8 +26,6 @@ buildscript {
 
 apply plugin: 'io.franzbecker.gradle-lombok'
 apply plugin: 'net.minecraftforge.gradle.forge'
-//apply plugin: 'java'
-//apply plugin: 'java-library'
 
 if (project.use_mixins.toBoolean()) {
 	apply plugin: 'org.spongepowered.mixin'
@@ -119,10 +117,6 @@ dependencies {
     runtime project.cofhw_dep
     runtime project.rf_dep
     runtime project.ae2_dep
-    
-    //
-    shade 'org.javassist:javassist:3.28.0-GA'
-    //
 }
 
 sourceSets {
