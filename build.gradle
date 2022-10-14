@@ -1,35 +1,33 @@
 buildscript { 
     repositories {
         mavenCentral()
-        jcenter()
-		maven {
-			url "https://plugins.gradle.org/m2/"
-		}
-		maven {
-			url = 'https://maven.cleanroommc.com'
-		}
+	maven {
+		url "https://plugins.gradle.org/m2/"
+	}
+	maven {
+		url = 'https://maven.cleanroommc.com'
+	}
         maven {
-			url = 'https://maven.minecraftforge.net'
-		}
-		maven { 
-			url = 'https://repo.spongepowered.org/maven' 
-		}
+		url = 'https://maven.minecraftforge.net'
+	}
+	maven { 
+		url = 'https://repo.spongepowered.org/maven' 
+	}
     }
-
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_ver}"
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3.4'
         if (project.use_mixins.toBoolean()) {
 			classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
 		}
-		classpath "io.franzbecker:gradle-lombok:5.0.0"
+	classpath "io.franzbecker:gradle-lombok:5.0.0"
     }
 }
 
 apply plugin: "io.franzbecker.gradle-lombok"
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'java'
-apply plugin: 'java-library'
+//apply plugin: 'java'
+//apply plugin: 'java-library'
 
 if (project.use_mixins.toBoolean()) {
 	apply plugin: 'org.spongepowered.mixin'
@@ -38,6 +36,17 @@ if (project.use_mixins.toBoolean()) {
 version = project.mod_version
 group = project.maven_group
 archivesBaseName = project.archives_base_name
+
+sourceCompatibility = targetCompatibility = '1.8'
+
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
+configurations {
+    embed
+    implementation.extendsFrom(embed)
+}
 
 minecraft {
     version = '1.12.2-14.23.5.2847'
@@ -58,47 +67,30 @@ minecraft {
 }
 
 repositories {
-    jcenter()
-    maven {
-        name = 'JitPack.io'
-        url = 'https://jitpack.io'
-    }
-    maven {
-        name = 'forge'
-        url = 'https://files.minecraftforge.net/maven'
-    }
+    mavenCentral()
     maven { 
-		url = 'https://maven.cleanroommc.com'
-	}
+	url = 'https://maven.cleanroommc.com'
+    }
     maven {
         url = 'https://repo.spongepowered.org/maven'
     }
-	maven {
-		name = "CurseForge"
-		url = 'https://www.cursemaven.com'
-	}
-	maven {
-		url = "https://maven.removeco.de/"
-	}
     maven {
-        name = 'minecraftlibs'
-        url = 'https://libraries.minecraft.net'
-    } 
+	name = "CurseForge"
+	url = 'https://www.cursemaven.com'
+    }
+    maven {
+	url = "https://maven.removeco.de/"
+    }
     flatDir { dirs "./lib" }
-}
-
-configurations {
-    shade
-    implementation.extendsFrom shade
 }
 
 dependencies {
 
-	if (project.use_assetmover.toBoolean()) {
-		deobfCompile 'com.cleanroommc:assetmover:0.2'
-	}
-	if (project.use_mixins.toBoolean()) {
-		deobfCompile 'zone.rong:mixinbooter:5.0'
+    if (project.use_assetmover.toBoolean()) {
+	deobfCompile 'com.cleanroommc:assetmover:0.2'
+    }
+    if (project.use_mixins.toBoolean()) {
+	deobfCompile 'zone.rong:mixinbooter:5.0'
     }
     
     // Kotlin
@@ -107,26 +99,26 @@ dependencies {
     implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core' , version: "${kotlin_ver}"
     
     //Compile things that need deobf
-	deobfCompile project.mcmp_dep
-	deobfCompile project.td_dep
-	deobfCompile project.hei_dep
-	deobfCompile project.lp_dep
+    deobfCompile project.mcmp_dep
+    deobfCompile project.td_dep
+    deobfCompile project.hei_dep
+    deobfCompile project.lp_dep
 
-	//compileOnly
-	compileOnly project.rf_dep
-	compileOnly project.ae2_dep
-	compileOnly project.ccl_dep
-	compileOnly group: 'codechicken', name: 'NotEnoughItems', version: '1.12.2-2.4.3.245', classifier: 'deobf', transitive: false
+    //compileOnly
+    compileOnly project.rf_dep
+    compileOnly project.ae2_dep
+    compileOnly project.ccl_dep
+    compileOnly group: 'codechicken', name: 'NotEnoughItems', version: '1.12.2-2.4.3.245', classifier: 'deobf', transitive: false
 
-	//runtime so that mods loaded on runClient & runServer
-	runtime project.ccl_dep
-	runtime project.rs_dep
-	runtime project.te_dep
-	runtime project.tf_dep
-	runtime project.cofhc_dep
-	runtime project.cofhw_dep
-	runtime project.rf_dep
-	runtime project.ae2_dep
+    //runtime so that mods loaded on runClient & runServer
+    runtime project.ccl_dep
+    runtime project.rs_dep
+    runtime project.te_dep
+    runtime project.tf_dep
+    runtime project.cofhc_dep
+    runtime project.cofhw_dep
+    runtime project.rf_dep
+    runtime project.ae2_dep
     
     //
     shade 'org.javassist:javassist:3.28.0-GA'
@@ -160,11 +152,6 @@ processResources {
 }
  
 jar {
-    configurations.shade.each { dep ->
-        from(project.zipTree(dep)) {
-            exclude 'META-INF', 'META-INF/**'
-        }
-    }
     manifest {
 		def attribute_map = [:]
 		if (project.use_mixins.toBoolean()) {
@@ -173,5 +160,3 @@ jar {
         attributes(attribute_map)
     }
 }
-
-jar.finalizedBy('reobfJar')
