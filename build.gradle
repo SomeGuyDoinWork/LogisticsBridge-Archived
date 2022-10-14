@@ -18,14 +18,14 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_ver}"
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3.4'
         if (project.use_mixins.toBoolean()) {
-			classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
-		}
-	classpath "io.franzbecker:gradle-lombok:5.0.0"
+		classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
+	}
+	classpath 'io.franzbecker:gradle-lombok:5.0.0'
     }
 }
 
-apply plugin: "io.franzbecker.gradle-lombok"
-apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'io.franzbecker.gradle-lombok'
+apply plugin: 'net.minecraftforge.gradle.forge'
 //apply plugin: 'java'
 //apply plugin: 'java-library'
 
