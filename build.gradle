@@ -2,44 +2,60 @@ buildscript {
     repositories {
         mavenCentral()
         jcenter()
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+		maven {
+			url = 'https://maven.cleanroommc.com'
+		}
         maven {
-            name = 'forge'
-            url = 'https://files.minecraftforge.net/maven'
-        }
+			url = 'https://maven.minecraftforge.net'
+		}
+		maven { 
+			url = 'https://repo.spongepowered.org/maven' 
+		}
     }
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_ver}"
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        if (project.use_mixins.toBoolean()) {
+			classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
+		}
+		classpath "io.franzbecker:gradle-lombok:5.0.0"
     }
 }
 
+apply plugin: "io.franzbecker.gradle-lombok"
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'java'
 apply plugin: 'java-library'
 
-version = "${lbver}"
-
-minecraft {
-    mappings channel: 'snapshot', version: "${mappings_ver}"
-
-    runs {
-        client {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-        }
-
-        server {
-            workingDirectory project.file('run-server')
-
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-        }
-    }
+if (project.use_mixins.toBoolean()) {
+	apply plugin: 'org.spongepowered.mixin'
 }
 
+version = project.mod_version
+group = project.maven_group
+archivesBaseName = project.archives_base_name
+
+minecraft {
+    version = '1.12.2-14.23.5.2847'
+    runDir = 'run'
+    mappings = 'stable_39'
+	replace("@VERSION@", project.mod_version)
+	def args = []
+	if (project.use_coremod.toBoolean()) {
+		args << '-Dfml.coreMods.load=' + coremod_plugin_class_name
+	}
+	if (project.use_mixins.toBoolean()) {
+		args << '-Dmixin.hotSwap=true'
+		args << '-Dmixin.checks.interfaces=true'
+		args << '-Dmixin.debug.export=true'
+	}
+	clientJvmArgs.addAll(args)
+	serverJvmArgs.addAll(args)
+}
 
 repositories {
     jcenter()
@@ -51,6 +67,19 @@ repositories {
         name = 'forge'
         url = 'https://files.minecraftforge.net/maven'
     }
+    maven { 
+		url = 'https://maven.cleanroommc.com'
+	}
+    maven {
+        url = 'https://repo.spongepowered.org/maven'
+    }
+	maven {
+		name = "CurseForge"
+		url = 'https://www.cursemaven.com'
+	}
+	maven {
+		url = "https://maven.removeco.de/"
+	}
     maven {
         name = 'minecraftlibs'
         url = 'https://libraries.minecraft.net'
@@ -64,50 +93,70 @@ configurations {
 }
 
 dependencies {
+
+	if (project.use_assetmover.toBoolean()) {
+		deobfCompile 'com.cleanroommc:assetmover:0.2'
+	}
+	if (project.use_mixins.toBoolean()) {
+		deobfCompile 'zone.rong:mixinbooter:5.0'
+    }
+    
+    // Kotlin
     implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: "${kotlin_ver}"
     implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version: "${kotlin_ver}"
     implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core' , version: "${kotlin_ver}"
-    //
-    minecraft group: 'net.minecraftforge', name: 'forge', version: "${mc_ver}-${forge_ver}"
-    //
-    compileOnly ":logisticspipes-${lp_ver}-api"
-    compileOnly ":NotEnoughItems-${mc_ver}-${nei_ver}-deobf"
-    implementation ":logisticspipes-${lp_ver}-deobf"
-    api fg.deobf (":MCMultiPart-${mcmp_ver}")
-    api fg.deobf (":ThermalDynamics-${mc_ver}-${td_ver}-universal")
-    api fg.deobf (":refinedstorage-${rs_ver}")
-    api fg.deobf (":appliedenergistics2-rv6-stable-7-extended_life-v${ae_ver}")
-    //
-    runtimeOnly ":refinedstorage-${rs_ver}"
-    runtimeOnly ":MCMultiPart-${mcmp_ver}"
-    runtimeOnly ":ThermalExpansion-${mc_ver}-${te_ver}-universal"
-    runtimeOnly ":ThermalFoundation-${mc_ver}-${tf_ver}-universal"
-    runtimeOnly ":CoFHCore-${mc_ver}-${cofhc_ver}-deobf"
-    runtimeOnly ":CoFHWorld-${mc_ver}-${cofhw_ver}-universal"
-    runtimeOnly ":RedstoneFlux-${mc_ver_short}-${rf_ver}-deobf"
-    runtimeOnly ":CodeChickenLib-${mc_ver}"
+    
+    //Compile things that need deobf
+	deobfCompile project.mcmp_dep
+	deobfCompile project.td_dep
+	deobfCompile project.hei_dep
+	deobfCompile project.lp_dep
+
+	//compileOnly
+	compileOnly project.rf_dep
+	compileOnly project.ae2_dep
+	compileOnly project.ccl_dep
+	compileOnly group: 'codechicken', name: 'NotEnoughItems', version: '1.12.2-2.4.3.245', classifier: 'deobf', transitive: false
+
+	//runtime so that mods loaded on runClient & runServer
+	runtime project.ccl_dep
+	runtime project.rs_dep
+	runtime project.te_dep
+	runtime project.tf_dep
+	runtime project.cofhc_dep
+	runtime project.cofhw_dep
+	runtime project.rf_dep
+	runtime project.ae2_dep
+    
     //
     shade 'org.javassist:javassist:3.28.0-GA'
     //
 }
 
+sourceSets {
+
+    main {
+        ext.refMap = 'mixins.' + archives_base_name + '.refmap.json'
+    }
+
+}
+
 processResources {
     // this will ensure that this task is redone when the versions change.
-    inputs.property "modversion", "${lbver}"
-    inputs.property "mcversion", "${mc_ver}"
-
+    inputs.property 'version', project.version
+    inputs.property 'mcversion', project.minecraft.version
+    
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
         // replace version and mcversion
-        expand 'modversion':"${lbver}", 'mcversion':"${mc_ver}"
+        expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-        
-    // copy everything else, thats not the mcmod.info
+    // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+	rename '(.+_at.cfg)', 'META-INF/$1' // Access Transformers
 }
  
 jar {
@@ -115,6 +164,13 @@ jar {
         from(project.zipTree(dep)) {
             exclude 'META-INF', 'META-INF/**'
         }
+    }
+    manifest {
+		def attribute_map = [:]
+		if (project.use_mixins.toBoolean()) {
+			attribute_map['TweakClass'] = 'org.spongepowered.asm.launch.MixinTweaker'
+		}
+        attributes(attribute_map)
     }
 }
 
