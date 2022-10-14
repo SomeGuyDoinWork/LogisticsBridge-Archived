@@ -21,9 +21,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
@@ -35,16 +33,10 @@ jobs:
       shell: bash
       run: |
         echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-        echo "::set-output name=version::$(awk 'NR==1' gradle.properties | sed 's/lbver=//' | awk '{print $1}')"
+        echo "::set-output name=version::$(awk 'NR==1' gradle.properties | sed 's/mod_version = //' | awk '{print $1}')"
         git rev-parse --short HEAD
-        awk 'NR==1' gradle.properties | sed 's/lbver=//' | awk '{print $1}'
-    - name: Replace version
-      id: version
-      shell: bash
-      run: sed -i -e "s/@VERSION@/${{ steps.vars.outputs.version }}/g" "src/main/java/com/tom/logisticsbridge/LogisticsBridge.java"
+        awk 'NR==1' gradle.properties | sed 's/mod_version = //' | awk '{print $1}'
     - name: Build with Gradle
-      env: 
-        MOD_VER: ${{ steps.vars.outputs.version }}
       run: ./gradlew build
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.3
