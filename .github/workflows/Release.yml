@@ -32,37 +32,7 @@ jobs:
       run: ./gradlew build
 
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.3
+      uses: actions/upload-artifact@v4.4.0
       with:
         name: LogisticsBridge-Artifact
         path: build/libs
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    
-    - uses: actions/checkout@v2
-
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v2.0.10
-
-    - name: Create version|changelog variable
-      id: vars
-      run: |
-        echo "::set-output name=version::$(awk 'NR==4' version-check.json | sed 's/"//g ; s/,//g' | awk -F": " '{print $2}')"
-        echo "::set-output name=changelog::$(awk 'NR==8' version-check.json | sed 's/"//g ; s/,//g' | awk -F": " '{print $2}')"
-        
-    - name: Create GitHub Release
-      uses: KorewaLidesu/github-release@2.0
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        tag: ${{ steps.vars.outputs.version }}
-        commitish: master
-        body:  ${{ steps.vars.outputs.changelog }}
-        name:  ${{ steps.vars.outputs.version }}
-        prerelease: false
-        allow_override: true
-        gzip: false
-        files: |
-            ./LogisticsBridge-Artifact/LogisticsBridge-${{ steps.vars.outputs.version }}.jar
