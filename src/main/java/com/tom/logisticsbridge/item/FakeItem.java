@@ -44,9 +44,9 @@ public class FakeItem extends Item {
                 else {
                     displayOverride = true;
                     if (stack.getTagCompound().getBoolean("__actStack"))
-                        tooltip.add(I18n.format("tooltip.logisticsbridge.packageAct", stack.getDisplayName()));
+                        tooltip.add(I18n.format("tooltip.logisticsbridge.packageAct", stack.getDisplayName(), stack.getCount()));
                     else
-                        tooltip.add(I18n.format("tooltip.logisticsbridge.packageTmp", stack.getDisplayName()));
+                        tooltip.add(I18n.format("tooltip.logisticsbridge.packageTmp", stack.getDisplayName(), stack.getCount()));
                     displayOverride = false;
                     String id = stack.getTagCompound().getString("__pkgDest");
                     if (!id.isEmpty())
@@ -55,7 +55,7 @@ public class FakeItem extends Item {
                 }
             } else {
                 if (stack.hasTagCompound())
-                    tooltip.add(I18n.format("tooltip.logisticsbridge.request", stack.getDisplayName()));
+                    tooltip.add(I18n.format("tooltip.logisticsbridge.request", stack.getDisplayName(), stack.getCount()));
                 else
                     tooltip.add(I18n.format("tooltip.logisticsbridge.fakeItemNull"));
                 tooltip.add(I18n.format("tooltip.logisticsbridge.techItem"));
