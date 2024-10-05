@@ -37,7 +37,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.3
+      uses: actions/upload-artifact@v4.4.0
       with:
         name: LogisticsBridge-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}
         path: build/libs
